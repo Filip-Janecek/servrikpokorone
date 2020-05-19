@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Webový server</title>
+    <script>
+        function zpracujCitac(){
+            fetch("http://localhost:8080/citac").then(function(response) {
+                response.text().then(function(text) {
+                    let obj = JSON.parse(text);
+                    document.getElementById("vystup").innerHTML = "Čítač má hodnotu: " + obj.citac; //.innerHTML se používá u duálních tagů, u neduálních se používá .value
+                });
+            });
+
+        }
+        function poNacteni() {
+            setInterval(zpracujCitac,1000);
+        }
+        function vynulujCitac(){
+            let url = "http://localhost:8080/citac/vynuluj";
+            setInterval(zpracujCitac,1000);
+            fetch(url).then(function(response) {
+                response.text().then(function(text) {
+                    let obj = JSON.parse(text);
+                    document.getElementById("vystup").innerHTML = "Čítač má hodnotu: " + obj.citac; //.innerHTML se používá u duálních tagů, u neduálních se používá .value
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="poNacteni()">
+<h1>Webový server po karanténě</h1>
+
+<div id="vystup">
+    ...
+</div>
+
+<input type="button" onclick="vynulujCitac()" value="Vynuluj čítač">
+
+</body>
+</html>
