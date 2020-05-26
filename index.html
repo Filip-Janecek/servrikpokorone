@@ -15,6 +15,7 @@
         }
         function poNacteni() {
             setInterval(zpracujCitac,1000);
+            setInterval(zobrazHodnotu,1000);
         }
         function vynulujCitac(){
             let url = "http://localhost:8080/citac/vynuluj";
@@ -26,6 +27,27 @@
                 });
             });
         }
+        
+        function odesliJmeno() {
+            let jmeno = document.getElementById("jmeno").value;
+           // let prijmeni = document.getElementById("prijmeni").value;
+            let url = "http://localhost:8080/zapamatujsi?jmeno=" + jmeno /*+"&prijmeni=" + prijmeni*/;
+            fetch(url).then(function(response) {
+                response.text().then(function(text) {
+                });
+            });
+            }
+
+        function zobrazHodnotu() {
+            let url = "http://localhost:8080/zobrazsi";
+            fetch(url).then(function(response) {
+                response.text().then(function(text) {
+                    let obj = JSON.parse(text);
+                    document.getElementById("zobrazenejmeno").value = obj.jmeno;
+                });
+            });
+        }
+
     </script>
 </head>
 <body onload="poNacteni()">
@@ -36,6 +58,9 @@
 </div>
 
 <input type="button" onclick="vynulujCitac()" value="Vynuluj čítač">
-
+<input type="text" value="jmeno" id="jmeno">
+<!--<input type="text" value="prijmeni" id="prijmeni">-->
+<input type="button" onclick="odesliJmeno()" value="Odešli jméno">
+<input type="text" id="zobrazenejmeno" value="...">
 </body>
 </html>
